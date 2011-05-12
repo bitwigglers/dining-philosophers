@@ -19,6 +19,11 @@ const QString& Philosopher::name() const
     return m_name;
 }
 
+void Philosopher::setName(const QString & name)
+{
+    m_name = name;
+}
+
 void Philosopher::setNeighbor(Philosopher *neighbor)
 {
     m_neighbor = neighbor;
