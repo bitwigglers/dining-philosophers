@@ -35,13 +35,17 @@ void Philosopher::setNeighbor(Philosopher *neighbor)
     m_neighbor = neighbor;
 }
 
+void Philosopher::wasteCpuCycles()
+{
+    volatile int i = qrand();
+    while(i--);
+}
 
 void Philosopher::think()
 {
     m_state = StateThinking;
     emit stateChanged(m_state);
-    float t = ((float)qrand() / (float)RAND_MAX) * 3;
-    sleep(t);
+    wasteCpuCycles();
 }
 
 void Philosopher::eat()
@@ -54,8 +58,7 @@ void Philosopher::eat()
 
     m_state = StateEating;
     emit stateChanged(m_state);
-    float t = ((float)qrand() / (float)RAND_MAX) * 3;
-    sleep(t);
+    wasteCpuCycles();
 
     releaseFork();
     m_neighbor->releaseFork();

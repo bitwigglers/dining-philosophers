@@ -34,6 +34,8 @@ private:
     Philosopher *m_neighbor;
     State m_state;
     QMutex forkMutex;
+
+    void wasteCpuCycles();
 };
 
 #endif // PHILOSOPHER_H
