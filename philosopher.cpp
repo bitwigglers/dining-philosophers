@@ -1,4 +1,5 @@
 #include "philosopher.h"
+#include <cstdlib>
 #include <QTime>
 
 void Philosopher::run()
@@ -11,6 +12,11 @@ void Philosopher::run()
 
 Philosopher::Philosopher(const QString &name, QObject *parent)
     : QThread(parent), m_name(name), m_neighbor(NULL)
+{
+}
+
+Philosopher::Philosopher(QObject *parent)
+    : QThread(parent), m_name("John Doe"), m_neighbor(NULL)
 {
 }
 
@@ -27,4 +33,40 @@ void Philosopher::setName(const QString & name)
 void Philosopher::setNeighbor(Philosopher *neighbor)
 {
     m_neighbor = neighbor;
+}
+
+
+void Philosopher::think()
+{
+    m_state = StateThinking;
+    emit stateChanged(m_state);
+    float t = ((float)qrand() / (float)RAND_MAX) * 3;
+    sleep(t);
+}
+
+void Philosopher::eat()
+{
+    m_state = StateHungry;
+    emit stateChanged(m_state);
+
+    acquireFork();
+    m_neighbor->acquireFork();
+
+    m_state = StateEating;
+    emit stateChanged(m_state);
+    float t = ((float)qrand() / (float)RAND_MAX) * 3;
+    sleep(t);
+
+    releaseFork();
+    m_neighbor->releaseFork();
+}
+
+void Philosopher::acquireFork()
+{
+    forkMutex.lock();
+}
+
+void Philosopher::releaseFork()
+{
+    forkMutex.unlock();
 }

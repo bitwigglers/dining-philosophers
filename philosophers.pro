@@ -4,9 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core
-
-QT       -= gui
+QT       += core declarative
 
 TARGET = philosophers
 CONFIG   += console warn
@@ -17,10 +15,11 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     philosopher.cpp \
-    starvingdiner.cpp \
-    starvingphilosopher.cpp
+    philosopheritem.cpp
 
 HEADERS += \
     philosopher.h \
-    starvingdiner.h \
-    starvingphilosopher.h
+    philosopheritem.h
+
+OTHER_FILES += \
+    app.qml

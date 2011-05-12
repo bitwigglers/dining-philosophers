@@ -2,6 +2,7 @@
 #define PHILOSOPHER_H
 
 #include <QThread>
+#include <QMutex>
 
 enum State{StateThinking, StateHungry, StateEating};
 
@@ -11,7 +12,9 @@ class Philosopher : public QThread
     Q_PROPERTY(QString name READ name WRITE setName)
 
 public:
-    explicit Philosopher(const QString& name, QObject *parent = 0);
+    Philosopher(const QString& name, QObject *parent = 0);
+    Philosopher(QObject *parent = 0);
+
     void run();
     const QString& name() const;
     void setName(const QString&);
@@ -20,13 +23,17 @@ public:
 signals:
     void stateChanged(State);
 
-protected:
-    virtual void think() = 0;
-    virtual void eat() = 0;
+protected:        
+    virtual void think();
+    virtual void eat();
+    virtual void acquireFork();
+    virtual void releaseFork();
 
+private:
     QString m_name;
     Philosopher *m_neighbor;
     State m_state;
+    QMutex forkMutex;
 };
 
 #endif // PHILOSOPHER_H
