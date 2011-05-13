@@ -36,6 +36,7 @@ private:
     QColor m_color;
     Philosopher m_phil;
     Act::Activities m_activities;
+    unsigned long m_bites;
 };
 
 #endif // PHILOSOPHERITEM_H
