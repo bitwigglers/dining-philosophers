@@ -7,7 +7,7 @@ PhilosopherItem::PhilosopherItem(QDeclarativeItem *parent) :
     // need to disable this flag to draw inside a QDeclarativeItem
     setFlag(QGraphicsItem::ItemHasNoContents, false);
 
-    connect(&m_phil, SIGNAL(stateChanged(State)), this, SLOT(changeState(State)), Qt::QueuedConnection);
+    connect(&m_phil, SIGNAL(activitiesChanged(Act::Activities)), this, SLOT(changeActivities(Act::Activities)), Qt::QueuedConnection);
 }
 
 QString PhilosopherItem::name() const
@@ -30,13 +30,9 @@ void PhilosopherItem::setColor(const QColor &color)
     m_color = color;
 }
 
-void PhilosopherItem::changeState(State state)
+void PhilosopherItem::changeActivities(Act::Activities activities)
 {
-    switch(state) {
-    case StateThinking: m_color = Qt::yellow; break;
-    case StateHungry:   m_color = Qt::red; break;
-    case StateEating:   m_color = Qt::green; break;
-    }
+    m_activities = activities;
     update();
 }
 
@@ -58,9 +54,19 @@ Philosopher* PhilosopherItem::philosopher()
 
 void PhilosopherItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    QBrush brush(m_color);
-    painter->setBrush(brush);
     painter->setRenderHints(QPainter::Antialiasing, true);
-    painter->drawEllipse(boundingRect());
+
+    if (m_activities & Act::ActThinking) {
+        painter->setBrush(Qt::blue);
+        painter->drawEllipse(boundingRect());
+
+        if (m_activities & Act::ActStarving) {
+            painter->setBrush(Qt::red);
+            painter->drawPie(boundingRect(), 90 * 16, 180 * 16);
+        }
+    } else if (m_activities & Act::ActEating) {
+        painter->setBrush(Qt::green);
+        painter->drawEllipse(boundingRect());
+    }
     painter->drawText(boundingRect(), Qt::AlignCenter, m_phil.name());
 }

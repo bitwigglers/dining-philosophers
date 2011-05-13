@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    qRegisterMetaType<State>("State");
+    qRegisterMetaType<Act::Activities>("Act::Activities");
     qmlRegisterType<PhilosopherItem>("Philosophers", 1, 0, "Philosopher");
 
     QDeclarativeView view;

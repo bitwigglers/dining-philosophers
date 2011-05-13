@@ -4,7 +4,14 @@
 #include <QThread>
 #include <QMutex>
 
-enum State{StateThinking, StateHungry, StateEating};
+namespace Act {
+    enum Activity{ActThinking = 0x1,
+         ActStarving = 0x2,
+         ActEating = 0x4};
+    Q_DECLARE_FLAGS(Activities, Activity)
+
+    Q_DECLARE_OPERATORS_FOR_FLAGS(Act::Activities)
+}
 
 class Philosopher : public QThread
 {
@@ -12,6 +19,8 @@ class Philosopher : public QThread
     Q_PROPERTY(QString name READ name WRITE setName)
 
 public:
+    Q_FLAGS(Activity Activities)
+
     Philosopher(const QString& name, QObject *parent = 0);
     Philosopher(QObject *parent = 0);
 
@@ -21,7 +30,7 @@ public:
     void setNeighbor(Philosopher *neighbor);
 
 signals:
-    void stateChanged(State);
+    void activitiesChanged(Act::Activities);
 
 protected:        
     virtual void think();
@@ -32,7 +41,7 @@ protected:
 private:
     QString m_name;
     Philosopher *m_neighbor;
-    State m_state;
+    Act::Activities m_activities;
     QMutex forkMutex;
 
     void wasteCpuCycles();

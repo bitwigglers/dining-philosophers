@@ -43,15 +43,18 @@ void Philosopher::wasteCpuCycles()
 
 void Philosopher::think()
 {
-    m_state = StateThinking;
-    emit stateChanged(m_state);
+    m_activities |= Act::ActThinking;
+    m_activities &= ~Act::ActEating;
+
+    emit activitiesChanged(m_activities);
     wasteCpuCycles();
 }
 
 void Philosopher::eat()
 {
-    m_state = StateHungry;
-    emit stateChanged(m_state);
+    m_activities |= Act::ActStarving;
+    m_activities &= ~Act::ActThinking;
+    emit activitiesChanged(m_activities);
 
     if (!acquireFork())
         return;
@@ -61,8 +64,9 @@ void Philosopher::eat()
         return;
     }
 
-    m_state = StateEating;
-    emit stateChanged(m_state);
+    m_activities |= Act::ActEating;
+    m_activities &= ~Act::ActStarving;
+    emit activitiesChanged(m_activities);
     wasteCpuCycles();
 
     releaseFork();

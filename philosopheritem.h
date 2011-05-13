@@ -29,12 +29,13 @@ public:
 signals:
 
 public slots:
-    void changeState(State);
+    void changeActivities(Act::Activities);
 
 private:
     QString m_name;
     QColor m_color;
     Philosopher m_phil;
+    Act::Activities m_activities;
 };
 
 #endif // PHILOSOPHERITEM_H
