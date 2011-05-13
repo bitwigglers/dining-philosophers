@@ -10,7 +10,6 @@ Rectangle {
         id: phil1
         name: "Horst"
         neighbor: phil2
-        color: "green"
         width: 50; height: 50
         x: 125; y:50
     }
@@ -19,7 +18,6 @@ Rectangle {
         id: phil2
         name: "Klaus"
         neighbor: phil3
-        color: "blue"
         width: 50; height: 50
         x: 50; y:100
     }
@@ -28,7 +26,6 @@ Rectangle {
         id: phil3
         neighbor: phil4
         name: "Bernd"
-        color: "yellow"
         width: 50; height: 50
         x: 75; y:175
     }
@@ -37,7 +34,6 @@ Rectangle {
         id: phil4
         neighbor: phil5
         name: "Jochen"
-        color: "red"
         width: 50; height: 50
         x: 175; y:175
     }
@@ -46,7 +42,6 @@ Rectangle {
         id: phil5
         neighbor: phil1
         name: "Heinz"
-        color: "orange"
         width: 50; height: 50
         x: 200; y:100
     }

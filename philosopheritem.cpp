@@ -20,16 +20,6 @@ void PhilosopherItem::setName(const QString &name)
     m_phil.setName(name);
 }
 
-QColor PhilosopherItem::color() const
-{
-    return m_color;
-}
-
-void PhilosopherItem::setColor(const QColor &color)
-{
-    m_color = color;
-}
-
 void PhilosopherItem::changeActivities(Act::Activities activities)
 {
     m_activities = activities;

@@ -8,7 +8,6 @@ class PhilosopherItem : public QDeclarativeItem
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name WRITE setName)
-    Q_PROPERTY(QColor color READ color WRITE setColor)
     Q_PROPERTY(PhilosopherItem* neighbor READ neighbor WRITE setNeighbor)
 
 public:
@@ -16,9 +15,6 @@ public:
 
     QString name() const;
     void setName(const QString &name);
-
-    QColor color() const;
-    void setColor(const QColor &color);
 
     PhilosopherItem* neighbor();
     void setNeighbor(PhilosopherItem*);
@@ -33,7 +29,6 @@ public slots:
 
 private:
     QString m_name;
-    QColor m_color;
     Philosopher m_phil;
     Act::Activities m_activities;
     unsigned long m_bites;
