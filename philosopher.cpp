@@ -37,7 +37,7 @@ void Philosopher::setNeighbor(Philosopher *neighbor)
 
 void Philosopher::wasteCpuCycles()
 {
-    volatile int i = qrand();
+    volatile int i = 0x7ffffff;
     while(i--);
 }
 
@@ -53,8 +53,13 @@ void Philosopher::eat()
     m_state = StateHungry;
     emit stateChanged(m_state);
 
-    acquireFork();
-    m_neighbor->acquireFork();
+    if (!acquireFork())
+        return;
+
+    if (!m_neighbor->acquireFork()) {
+        releaseFork();
+        return;
+    }
 
     m_state = StateEating;
     emit stateChanged(m_state);
@@ -64,9 +69,9 @@ void Philosopher::eat()
     m_neighbor->releaseFork();
 }
 
-void Philosopher::acquireFork()
+bool Philosopher::acquireFork()
 {
-    forkMutex.lock();
+    return forkMutex.tryLock();
 }
 
 void Philosopher::releaseFork()

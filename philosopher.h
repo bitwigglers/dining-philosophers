@@ -26,7 +26,7 @@ signals:
 protected:        
     virtual void think();
     virtual void eat();
-    virtual void acquireFork();
+    virtual bool acquireFork();
     virtual void releaseFork();
 
 private:
